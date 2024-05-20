@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import * as utils from "./utils";
-import { Gesture, GestureDetector, GestureTouchEvent } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, GestureTouchEvent, State } from "react-native-gesture-handler";
 import { IReactNativeJoystickProps } from "./types";
 
 export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000", radius = 150, style, ...props }: IReactNativeJoystickProps) => {
@@ -38,7 +38,7 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
       setX(coordinates.x);
       setY(coordinates.y);
 
-      onMove &&
+      if(event.state === State.ACTIVE && onMove)
         onMove({
            position: {
             x: coordinates.x - 2 * nippleRadius,
