@@ -4,7 +4,7 @@ import * as utils from "./utils";
 import { Gesture, GestureDetector, GestureTouchEvent, State } from "react-native-gesture-handler";
 import { IReactNativeJoystickProps } from "./types";
 
-export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000", radius = 150, style, ...props }: IReactNativeJoystickProps) => {
+export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000", radius = 150, style, children, ...props }: IReactNativeJoystickProps) => {
   const wrapperRadius = radius;
   const nippleRadius = wrapperRadius / 3;
 
@@ -122,6 +122,7 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
     <GestureDetector gesture={panGesture}>
       <View style={styles.wrapper} {...props}>
         <View pointerEvents="none" style={styles.nipple}></View>
+        {children}
       </View>
     </GestureDetector>
   );
