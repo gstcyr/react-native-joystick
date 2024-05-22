@@ -42,7 +42,7 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
         onMove({
            position: {
             x: coordinates.x - 2 * nippleRadius,
-            y: coordinates.y - 2 * nippleRadius
+            y: -(coordinates.y - 2 * nippleRadius)
           },
           angle: {
             radian: utils.degreesToRadians(angle),
@@ -97,8 +97,7 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
           width: 2 * radius,
           height: 2 * radius,
           borderRadius: radius,
-          backgroundColor: `${color}55`,
-          transform: [{ rotateX: "180deg" }],
+          backgroundColor: `${color}55`,          
           ...(style && typeof style === "object" ? style : {}),
         },
         nipple: {
