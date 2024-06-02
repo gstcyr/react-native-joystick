@@ -40,7 +40,7 @@
   },
   "scripts": {
     "prepublish": "tsc",
-    "build": "tsc --project tsconfig.build.json"
+    "build": "tsc --project tsconfig.build.json",
   },
   "peerDependencies": {
     "react": "18.2.0",

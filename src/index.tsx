@@ -4,19 +4,30 @@ import * as utils from "./utils";
 import { Gesture, GestureDetector, GestureTouchEvent, State } from "react-native-gesture-handler";
 import { IReactNativeJoystickProps } from "./types";
 
-export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000", radius = 150, nippleRatio =3, style, children, ...props }: IReactNativeJoystickProps) => {
+export const ReactNativeJoystick = ({
+                                      onStart,
+                                      onMove,
+                                      onStop,
+                                      color = "#000000",
+                                      radius = 150,
+                                      style,
+                                      nippleRatio = 3,
+                                      children,
+                                      ...props
+                                    }: IReactNativeJoystickProps) => {
   const wrapperRadius = radius;
   const nippleRadius = wrapperRadius / nippleRatio;
 
   const [x, setX] = useState(wrapperRadius - nippleRadius);
   const [y, setY] = useState(wrapperRadius - nippleRadius);
 
-  const handleUpdate = useCallback((event) => {
+  const handleUpdate = useCallback((event: any) => {
     const offset = wrapperRadius - nippleRadius;
-    let dist = utils.calcDistance({x: 0, y: 0}, {x: event.translationX, y: event.translationY});
-    const angle = utils.calcAngle({x: event.translationX, y: event.translationY}, {x: 0, y: 0});
-    const rads = degreesToRadians(angle);
+    let dist = utils.calcDistance({ x: 0, y: 0 }, { x: event.translationX, y: event.translationY });
+    const angle = utils.calcAngle({ x: event.translationX, y: event.translationY }, { x: 0, y: 0 });
+    const rads = utils.degreesToRadians(angle);
     const force = dist / (nippleRadius * 2);
+    let coordinates;
 
     if (dist >= wrapperRadius) {
       coordinates = {
@@ -24,10 +35,10 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
         y: wrapperRadius * Math.sin(rads)
       };
     } else {
-        coordinates = {
-            x: dist * Math.cos(rads),
-            y: dist * Math.sin(rads)
-        }
+      coordinates = {
+        x: dist * Math.cos(rads),
+        y: dist * Math.sin(rads)
+      };
     }
     setX(coordinates.x + offset);
     setY(coordinates.y + offset);
@@ -39,11 +50,11 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
           y: -coordinates.y
         },
         angle: {
-          radian: utils.degreesToRadians(angle),
-          degree: angle,
+          radian: rads,
+          degree: angle
         },
         force,
-        type: "move",
+        type: "move"
       });
 
 
@@ -53,34 +64,34 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
     setX(wrapperRadius - nippleRadius);
     setY(wrapperRadius - nippleRadius);
     onStop &&
-      onStop({
-        force: 0,
-        position: {
-          x: 0,
-          y: 0,
-        },
-        angle: {
-          radian: 0,
-          degree: 0,
-        },
-        type: "stop",
-      });
+    onStop({
+      force: 0,
+      position: {
+        x: 0,
+        y: 0
+      },
+      angle: {
+        radian: 0,
+        degree: 0
+      },
+      type: "stop"
+    });
   };
 
   const handleTouchStart = () => {
     onStart &&
-      onStart({
-        force: 0,
-        position: {
-          x: 0,
-          y: 0,
-        },
-        angle: {
-          radian: 0,
-          degree: 0,
-        },
-        type: "start",
-      });
+    onStart({
+      force: 0,
+      position: {
+        x: 0,
+        y: 0
+      },
+      angle: {
+        radian: 0,
+        degree: 0
+      },
+      type: "start"
+    });
   };
 
   const panGesture = Gesture.Pan().onStart(handleTouchStart).onEnd(handleTouchEnd).onUpdate(handleUpdate);
@@ -91,8 +102,8 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
           width: 2 * radius,
           height: 2 * radius,
           borderRadius: radius,
-          backgroundColor: `${color}55`,          
-          ...(style && typeof style === "object" ? style : {}),
+          backgroundColor: `${color}55`,
+          ...(style && typeof style === "object" ? style : {})
         },
         nipple: {
           height: 2 * nippleRadius,
@@ -100,22 +111,23 @@ export const ReactNativeJoystick = ({ onStart, onMove, onStop, color = "#000000"
           borderRadius: nippleRadius,
           backgroundColor: `${color}bb`,
           position: "absolute",
+          zIndex: 2,
           transform: [
             { translateX: x },
-            { translateY: y },
-          ],
-        },
+            { translateY: y }
+          ]
+        }
       }),
     [radius, color, nippleRadius, x, y]
   );
 
-  return (    
-      <View style={styles.wrapper} {...props}>
-        <GestureDetector gesture={panGesture}>
-          <View pointerEvents="none" style={styles.nipple}></View>
-        </GestureDetector>
-        {children}
-      </View>    
+  return (
+    <View style={styles.wrapper} {...props}>
+      {children}
+      <GestureDetector gesture={panGesture}>
+        <View pointerEvents="none" style={styles.nipple}></View>
+      </GestureDetector>
+    </View>
   );
 };
 

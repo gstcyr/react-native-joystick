@@ -18,4 +18,5 @@ export interface IReactNativeJoystickProps extends ViewProps {
   onStop?: (e: IReactNativeJoystickEvent) => void;
   radius?: number;
   color?: string;
+  nippleRatio?: number;
 }

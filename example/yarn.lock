@@ -1695,7 +1695,7 @@
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
 "@korsolutions/react-native-joystick@file:..":
-  version "2.0.1"
+  version "2.0.3"
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
