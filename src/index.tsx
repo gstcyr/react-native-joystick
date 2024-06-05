@@ -1,5 +1,6 @@
+// @ts-ignore: Unreachable code error
 import React, { useState, useCallback, useMemo } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 import * as utils from "./utils";
 import { Gesture, GestureDetector, GestureTouchEvent, State } from "react-native-gesture-handler";
 import { IReactNativeJoystickProps } from "./types";
@@ -111,7 +112,8 @@ export const ReactNativeJoystick = ({
           borderRadius: nippleRadius,
           backgroundColor: `${color}bb`,
           position: "absolute",
-          zIndex: 2,
+          cursor: "pointer",
+          zIndex: 10,
           transform: [
             { translateX: x },
             { translateY: y }
@@ -125,7 +127,7 @@ export const ReactNativeJoystick = ({
     <View style={styles.wrapper} {...props}>
       {children}
       <GestureDetector gesture={panGesture}>
-        <View pointerEvents="none" style={styles.nipple}></View>
+        <View style={styles.nipple}/>
       </GestureDetector>
     </View>
   );
