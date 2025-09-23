@@ -95,7 +95,7 @@ export const ReactNativeJoystick = ({
     });
   };
 
-  const panGesture = Gesture.Pan().onStart(handleTouchStart).onEnd(handleTouchEnd).onUpdate(handleUpdate);
+  const panGesture = Gesture.Pan().onStart(handleTouchStart).onEnd(handleTouchEnd).onUpdate(handleUpdate).runOnJS(true);
   const styles = useMemo(
     () =>
       StyleSheet.create({
